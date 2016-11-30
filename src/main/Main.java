@@ -2,6 +2,7 @@ package main;
 
 import java.io.BufferedReader;
 
+import cryptography.Playfair;
 import tools.FileManager;
 import tools.WordProcessor;
 
@@ -15,11 +16,13 @@ public class Main {
 		try {
 			br.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("Can't close the BufferedReader: " + e.toString());
 		}
 		
 		WordProcessor wp = new WordProcessor(msg);
 		wp.dltChar();
-		System.out.println(wp.getMsg());
+
+		Playfair playfair = new Playfair(wp.getMsg(), "COUCOU");
+		System.out.println(playfair.crypt());
 	}
 }
