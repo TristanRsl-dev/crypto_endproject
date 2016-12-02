@@ -28,6 +28,13 @@ public class Main {
 		playfair.setMsg(playfair.getMsg());
 		playfair.decrypt();
 		System.out.println("## decrypt playfair: " + playfair.getMsg() + "\n");
+		
+		Vigenere vigenere = new Vigenere(wp.getMsg(), "COUCOU");
+		vigenere.crypt();
+		System.out.println("## crypt vigenere: " + vigenere.getMsg()+"\n");
+		vigenere.setMsg(vigenere.getMsg());
+		vigenere.decrypt();
+		System.out.println("## decrypt vigenere: " + vigenere.getMsg() + "\n");
 
 		Hill hill = new Hill(wp.getMsg());
 		System.out.println(hill.crypt()+"\n");
