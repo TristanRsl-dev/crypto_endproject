@@ -2,18 +2,16 @@ package cryptography;
 
 public class Hill {
 		private String message;
-		private int[][] key; // Matrice 2x2 par défaut.
+		private int[][] key={{2,7},{3,8}}; // Matrice 2x2 par défaut.
 		
-		public Hill(String message, int[][] key) {
+		public Hill(String message) {
 			this.message = message;
-			this.key = key;
 		}
 		
 		public String crypt(){
 			String res="";
 			if (message.length() %2 !=0) message+="X"; //Bourrage avec un X si le message n'est pas pair
 			int i=0;
-			int key[][]={{2,7},{3,8}};
 			int det =(key[0][0]*key[1][1] - key[0][1]*key[1][0])%26;
 			if (det<0) det=-det;
 			while(i<message.length()-1)

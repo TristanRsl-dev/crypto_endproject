@@ -9,7 +9,6 @@ import tools.WordProcessor;
 public class Main {
 
 	public static void main(String[] args) {
-		int key_hill[][]={{2,7},{3,8}};
 		String filename = "resources/message_1";
 		FileManager fm = new FileManager(filename);
 		BufferedReader br = fm.open();
@@ -24,10 +23,21 @@ public class Main {
 		wp.dltChar();
 
 		Playfair playfair = new Playfair(wp.getMsg(), "COUCOU");
-		System.out.println(playfair.crypt());
+		System.out.println(playfair.crypt()+"\n");
+
+		Hill hill = new Hill(wp.getMsg());
+		System.out.println(hill.crypt()+"\n");
+		Hill hill2 = new Hill(hill.crypt());
+		System.out.println(hill2.decrypt()+"\n");
 		
-		Hill hill = new Hill(wp.getMsg(),key_hill);
-		String crypt_hill = hill.crypt();
-		Hill hill2 = new Hill(crypt_hill, key_hill);
+		
+		
+		Boxes boxes = new Boxes(wp.getMsg());
+		String res = boxes.crypt();
+		System.out.println("crypt ="+res+"\n");
+
+		Boxes boxes2 = new Boxes(res);
+		String m = boxes2.decrypt();
+		System.out.println("decrypt = "+m);
 	}
 }
