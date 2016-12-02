@@ -5,11 +5,11 @@ import tools.Tuple;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Playfair {
+public class Playfair implements iCrypt {
 	private String message;
 	private String key;
 
-	private static final ArrayList<String> alph = new ArrayList<>(Arrays.asList("A",
+	private static ArrayList<String> alph = new ArrayList<>(Arrays.asList("A",
 			"B", "C", "D", "E", "F", "G", "H",
 			"I", "K", "L", "M", "N", "O", "P", "Q",
 			"R", "S", "T", "U", "V", "W", "X", "Y", "Z"));
@@ -19,7 +19,12 @@ public class Playfair {
 		this.key = key;
 	}
 	
-	public String crypt() {
+	@Override
+	public void crypt() {
+		alph = new ArrayList<>(Arrays.asList("A",
+			"B", "C", "D", "E", "F", "G", "H",
+			"I", "K", "L", "M", "N", "O", "P", "Q",
+			"R", "S", "T", "U", "V", "W", "X", "Y", "Z"));
 		ArrayList<ArrayList<String>> matrix = defineMatrix();
 		String res = "";
 		for (int i = 0; i < message.length(); i += 2) {
@@ -31,9 +36,41 @@ public class Playfair {
 				b = 'X';
 				i--;
 			}
-			res += cryptCouple(String.valueOf(a) + b, matrix);
+			res += cryptCouple(String.valueOf(a) + b, matrix, 1);
 		}
-		return res;
+		this.setMsg(res);
+	}
+
+	@Override
+	public void decrypt() {
+		alph = new ArrayList<>(Arrays.asList("A",
+				"B", "C", "D", "E", "F", "G", "H",
+				"I", "K", "L", "M", "N", "O", "P", "Q",
+				"R", "S", "T", "U", "V", "W", "X", "Y", "Z"));
+			ArrayList<ArrayList<String>> matrix = defineMatrix();
+			String res = "";
+			for (int i = 0; i < message.length(); i += 2) {
+				if (i + 1 == message.length())
+					message += ((ArrayList<String>)matrix.get(0)).get(0);
+				char a = message.charAt(i);
+				char b = message.charAt(i + 1);
+				if (a == b) {
+					b = 'X';
+					i--;
+				}
+				res += cryptCouple(String.valueOf(a) + b, matrix, -1);
+			}
+			this.setMsg(res);
+	}
+
+	@Override
+	public void setMsg(String message) {
+		this.message = message;		
+	}
+
+	@Override
+	public String getMsg() {
+		return message;
 	}
 
 	private ArrayList<ArrayList<String>> defineMatrix() {
@@ -68,7 +105,7 @@ public class Playfair {
 		return false;
 	}
 	
-	private String cryptCouple(String couple, ArrayList<ArrayList<String>> matrix) {
+	private String cryptCouple(String couple, ArrayList<ArrayList<String>> matrix, int neg) {
 		String a = String.valueOf(couple.charAt(0));
 		String b = String.valueOf(couple.charAt(1));
 		Tuple posa = new Tuple(0, 0);
@@ -88,14 +125,20 @@ public class Playfair {
 		
 		//Check if it's on the same line
 		if (posa.getX() == posb.getX())
-			return ((ArrayList<String>)matrix.get((posa.getY() + 1)%5)).get(posa.getX()) +
-					((ArrayList<String>)matrix.get((posb.getY() + 1)%5)).get(posb.getX());
+			return ((ArrayList<String>)matrix.get(modulo(posa.getY() + neg, 5))).get(posa.getX()) +
+					((ArrayList<String>)matrix.get(modulo(posb.getY() + neg, 5))).get(posb.getX());
 		//Check if it's on the same column
 		else if (posa.getY() == posb.getY())
-			return ((ArrayList<String>)matrix.get(posa.getY())).get((posa.getX() + 1)%5) +
-					((ArrayList<String>)matrix.get(posb.getY())).get((posb.getX() + 1)%5);
+			return ((ArrayList<String>)matrix.get(posa.getY())).get(modulo(posa.getX() + neg, 5)) +
+					((ArrayList<String>)matrix.get(posb.getY())).get(modulo(posb.getX() + neg, 5));
 		else
 			return ((ArrayList<String>)matrix.get(posa.getY())).get(posb.getX()) +
 					((ArrayList<String>)matrix.get(posb.getY())).get(posa.getX());
+	}
+	
+	private int modulo(int a, int mod) {
+		if (a < 0)
+			return mod + a;
+		return a % mod;
 	}
 }

@@ -23,7 +23,11 @@ public class Main {
 		wp.dltChar();
 
 		Playfair playfair = new Playfair(wp.getMsg(), "COUCOU");
-		System.out.println(playfair.crypt()+"\n");
+		playfair.crypt();
+		System.out.println("## crypt playfair: " + playfair.getMsg()+"\n");
+		playfair.setMsg(playfair.getMsg());
+		playfair.decrypt();
+		System.out.println("## decrypt playfair: " + playfair.getMsg() + "\n");
 
 		Hill hill = new Hill(wp.getMsg());
 		System.out.println(hill.crypt()+"\n");
