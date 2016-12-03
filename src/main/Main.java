@@ -21,8 +21,14 @@ public class Main {
 		
 		WordProcessor wp = new WordProcessor(msg);
 		wp.dltChar();
+		
+		General general = new General(wp.getMsg());
+		general.crypt();
+		
+		general.setMsg(general.getMsg());
+		general.decrypt();
 
-		Playfair playfair = new Playfair(wp.getMsg(), "COUCOU");
+		/*Playfair playfair = new Playfair(wp.getMsg(), "COUCOU");
 		playfair.crypt();
 		System.out.println("## crypt playfair: " + playfair.getMsg()+"\n");
 		playfair.setMsg(playfair.getMsg());
@@ -49,6 +55,6 @@ public class Main {
 
 		Boxes boxes2 = new Boxes(res);
 		String m = boxes2.decrypt();
-		System.out.println("decrypt = "+m);
+		System.out.println("decrypt = "+m);*/
 	}
 }

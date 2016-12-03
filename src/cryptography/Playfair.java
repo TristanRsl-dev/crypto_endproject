@@ -32,10 +32,10 @@ public class Playfair implements iCrypt {
 				message += ((ArrayList<String>)matrix.get(0)).get(0);
 			char a = message.charAt(i);
 			char b = message.charAt(i + 1);
-			if (a == b) {
+			/*if (a == b) {
 				b = 'X';
 				i--;
-			}
+			}*/
 			res += cryptCouple(String.valueOf(a) + b, matrix, 1);
 		}
 		this.setMsg(res);
@@ -54,10 +54,10 @@ public class Playfair implements iCrypt {
 					message += ((ArrayList<String>)matrix.get(0)).get(0);
 				char a = message.charAt(i);
 				char b = message.charAt(i + 1);
-				if (a == b) {
+				/*if (a == b) {
 					b = 'X';
 					i--;
-				}
+				}*/
 				res += cryptCouple(String.valueOf(a) + b, matrix, -1);
 			}
 			this.setMsg(res);
